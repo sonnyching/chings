@@ -5,8 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新博客</title>
-<script src="../static/js/showdown.min.js"></script>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../includefile.jsp"%>
 </head>
 <style>
@@ -98,7 +97,7 @@ html, body {
 	   					+"&article_title="+title+"&article_intro="+info;
 		 	$.ajax({
 				   type: "POST",
-				   url: "/xiaoqibaby/article/add_article",
+				   url: "/article/add_article",
 				   data: form_data,
 				   success: function(msg){
 					 var obj = jQuery.parseJSON(msg);
@@ -120,7 +119,7 @@ html, body {
 		
 		$.ajax({
 			   type: "GET",
-			   url: "/xiaoqibaby/article/article_defs",
+			   url: "/article/article_defs",
 			   success: function(msg){
 				  	var json = jQuery.parseJSON(msg);
 				  	for ( i=0;i<json.length;i++) {
@@ -132,7 +131,7 @@ html, body {
 		
 		$.ajax({
 			   type: "GET",
-			   url: "/xiaoqibaby/article/article_types",
+			   url: "/article/article_types",
 			   success: function(msg){
 				   var json = jQuery.parseJSON(msg);
 				  	for ( i=0;i<json.length;i++) {
