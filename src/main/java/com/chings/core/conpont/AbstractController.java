@@ -1,11 +1,10 @@
 package com.chings.core.conpont;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSONObject;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class AbstractController<T> {
 	
@@ -14,19 +13,19 @@ public class AbstractController<T> {
 	protected String responseString;//响应字符串
 	
 	/**
-	 * 
-	 * @param state 状态（0失败，1成功）
+	 *
+	 * @param code 状态（0失败，1成功）
 	 * @param info
 	 * @return
 	 */
-	public String createResponseString(int state,String info ){
-		
+	public String createResponseString(int code,String info ){
+
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("state", state);
+		jsonObject.put("code", code);
 		jsonObject.put("info", info);
-		
-		return jsonObject.toJSONString();
-		
+
+		return jsonObject.toString();
+
 	}
 	
 	/**

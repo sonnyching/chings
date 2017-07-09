@@ -3,4 +3,17 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chings.core.dao.IMessageDao" >
 
+    <!--long target,int targetType,String action,User sender,String content-->
+    <insert id="createRemind"
+            keyProperty="id">
+
+        insert into t_message_action(target,target_type,type,action,sender,content,create_time)
+        values(
+          	#{target},#{targetType},#{messageType},#{action},
+    	   	#{senderId},#{content},#{createTime}
+        )
+
+    </insert>
+
+
 </mapper>

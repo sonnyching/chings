@@ -173,7 +173,6 @@ html, body {
 			<div style="width:100%;height:100%;" id="article_preview"></div>
 		</div>
 	</div> -->
-<%@ include file="../includefile.jsp"%>
 	<div style="width:100%; height:87%">
 		
 		<div class="edit_left">

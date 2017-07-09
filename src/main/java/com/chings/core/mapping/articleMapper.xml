@@ -77,7 +77,7 @@
     from tab_dict
     where dict_type = 'article_type'
   </select>
-  
+
    <select id="countArticles" resultType="java.lang.Integer">
     select 
     	count(*)

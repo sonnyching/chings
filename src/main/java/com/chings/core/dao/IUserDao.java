@@ -1,14 +1,13 @@
 package com.chings.core.dao;
 
-import java.util.List;
-
 import com.chings.core.model.User;
 
 public interface IUserDao {
 	
-		public User getUserById(String id);
+	public User findById(long id);
 		
-		
-		public List<User> selectAll();
+//		public List<User> selectAll();
+
+	public int register(User user);
 		
 }
