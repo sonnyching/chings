@@ -5,7 +5,7 @@
 	<title>我的账户</title>
   </head>
   <body>
-  我的信息
+  恭喜你，注册成功！
     ${user.name},
      ${user.id}
   </body>

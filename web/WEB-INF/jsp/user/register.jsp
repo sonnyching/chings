@@ -23,7 +23,7 @@
 	    var password = $("#password").val();
         var email = $("#email").val();
 	    $.ajax({
-            url:'/user/submitRegister',
+            url:'/user/register/submitRegister',
             method:'post',
             type:"json",
 			data:"name="+name+"&password="+password+"&email="+email,

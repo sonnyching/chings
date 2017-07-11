@@ -33,6 +33,14 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
+  <select id="findByAccountName" resultMap="User">
+    select
+    <include refid="User_Column_List" />
+    from t_user
+    where name = #{name}
+  </select>
+
+
   <insert id="register"
       useGeneratedKeys="true"
       parameterType="com.chings.core.model.User">
