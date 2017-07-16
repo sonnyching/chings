@@ -1,13 +1,17 @@
 package com.chings.core.interceptors;
 
+import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.User;
 import com.chings.core.utils.Constance;
+import com.chings.core.utils.ResponseUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -19,7 +23,7 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String fromUrl = request.getRequestURI();
+       String fromUrl = request.getRequestURI();
         if(unCheckUrls!=null && !unCheckUrls.isEmpty()){
             boolean flag = false;
             for (String url:unCheckUrls) {
@@ -42,7 +46,19 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
         User user = (User)session.getAttribute(Constance.PRE_LOGIN+session.getId());
         if(user==null){
             //进入登陆页
-            response.sendRedirect("/user/login");
+            //response.sendRedirect("/user/login");
+
+            PrintWriter writer = null;
+            try {
+                response.setCharacterEncoding("utf-8");
+                response.setContentType("text/html; charset=utf-8");
+                writer = response.getWriter();
+                writer.print(ResponseUtils.responseJosn(new UserNotLogin("未登录或登陆过期")));
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return false;
         }
 

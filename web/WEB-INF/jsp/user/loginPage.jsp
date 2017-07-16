@@ -7,13 +7,13 @@
         var name = $("#name").val();
         var password = $("#password").val();
         $.ajax({
-            url:'/user/register/submitLogin',
+            url:'/user/login/submitLogin',
             method:'post',
             type:"json",
             data:"name="+name+"&password="+password,
             success: function (data) {
-                if(data.error<0){
-                    alert("登陆成功");
+                if(data.code<=0){
+                    window.location.href="/user/account";
                 }else{
                     alert(data.msg);
                 }

@@ -1,6 +1,7 @@
 package com.chings.core.service.impl;
 
 import com.chings.core.dao.IUserDao;
+import com.chings.core.exception.HandleFailedException;
 import com.chings.core.exception.SystemException;
 import com.chings.core.exception.UserNotFoundException;
 import com.chings.core.model.User;
@@ -43,11 +44,11 @@ public class UserServiceImpl implements IUserService {
 	public User login(String password, String name) {
 		User user = userDao.findByAccountName(name);
 		if(user==null){
-			throw new UserNotFoundException(-1,"用户名未注册");
+			throw new UserNotFoundException("用户名未注册");
 		}
 		String pwAfterMd5 = DigestUtils.md5Hex(password);
 		if(!user.password.equals(pwAfterMd5)){
-			return null;
+			throw new HandleFailedException("用户名与密码不匹配");
 		}
 		return user;
 	}

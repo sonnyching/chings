@@ -4,9 +4,10 @@
   <head>
 	<title>我的账户</title>
   </head>
-  <body>
-  恭喜你，注册成功！
-    ${user.name},
-     ${user.id}
+    <p>welcome ${user.name}!
+  <p></p>
+  <p>
+    王二小 喜欢了 你的文章《你好陌生人》
+  </p>
   </body>
 </html>

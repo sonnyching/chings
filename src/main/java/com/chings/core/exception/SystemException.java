@@ -6,7 +6,8 @@ package com.chings.core.exception;
  */
 public class SystemException extends AbsException{
 
-    public SystemException(int code, String message) {
-        super(code, message);
+    public SystemException(String message) {
+        super(message);this.code = 500;
+        setMsg(message);
     }
 }

@@ -6,8 +6,9 @@ package com.chings.core.exception;
  */
 public class UserNotFoundException extends AbsException {
 
-    public UserNotFoundException(int code, String message) {
-        super(code, message);
+    public UserNotFoundException(String message) {
+        super(message);this.code=101;
+        setMsg(message);
     }
 
 }

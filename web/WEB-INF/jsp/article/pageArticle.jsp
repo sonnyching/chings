@@ -83,7 +83,22 @@ a:hover{
 	background-color:#ffffff;
 	border-radius:6px;
 }
+
+.likes-clicked{
+	background:url(../static/img/ico_praise.png) no-repeat left center;
+	width: 30px;
+	height: 30px;
+}
+
+	.article-list-botom{
+		height: 30px;
+		width: auto;
+		text-align: center;
+	}
+
 </style>
+
+
 
 <script type="text/javascript">
 	$(function(){
@@ -93,6 +108,19 @@ a:hover{
 			$("#article_pagination").append(pagecode);
 		}
 	});
+	function likes(articleId) {
+		$.ajax({
+			url:'/message/addNotice?id='+articleId,
+			method:"get",
+			success:function (data) {
+				if(data.code<=0){
+				    alert('like success!');
+				}else{
+				    alert(data.msg);
+				}
+            }
+		});
+    }
 	
 </script>
 
@@ -106,8 +134,8 @@ a:hover{
 				<c:forEach items="${page.list}" var="article">
 					<div class="article_container">
 					  <div>
-						  <font class="article_def header">${article.article_definition_name }</font>
-						  <font class="article_type header">${article.article_type_name }</font>
+						  <i class="article_def header">${article.article_definition_name }</i>
+						  <i class="article_type header">${article.article_type_name }</i>
 						  <a class="header" href='detail?article_id=${article.article_id}'>${article.article_title }</a>
 					  </div>
 					  <div>
@@ -119,11 +147,15 @@ a:hover{
 								${article.article_publish_date }
 							</span>
 						  </div>
-						  <div class="article_content">
+						  <div>
 						  	 &nbsp;&nbsp;&nbsp;&nbsp;${article.article_intro }
 						  </div>	
 					  </div>
-	
+
+						<div class="article-list-botom">
+							<span class="glyphicon glyphicon-thumbs-up" onclick="likes(${article.article_id})"/>
+						</div>
+
 					</div>
 				</c:forEach>
 				

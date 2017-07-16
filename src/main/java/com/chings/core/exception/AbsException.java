@@ -15,6 +15,12 @@ public abstract class AbsException extends RuntimeException{
         this.msg = msg;
     }
 
+    public AbsException(String message) {
+        super(message);
+        this.msg = msg;
+    }
+
+
     public void setCode(int code) {
         this.code = code;
     }

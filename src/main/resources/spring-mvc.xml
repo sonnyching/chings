@@ -51,9 +51,13 @@
 	<mvc:resources location="/static/" mapping="/static/**" />
 	<mvc:annotation-driven>
 	   <mvc:message-converters register-defaults="true">
-	    <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-	      <property name="supportedMediaTypes" value = "text/plain;charset=UTF-8" />
-	   </bean>
+		   <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			   <property name="supportedMediaTypes">
+				   <list>
+					   <value>application/json;charset=UTF-8</value>
+				   </list>
+			   </property>
+		   </bean>
 	   </mvc:message-converters>
 	</mvc:annotation-driven>
 	<mvc:default-servlet-handler/>
@@ -66,10 +70,11 @@
 				<!--不进行登陆拦截的地址-->
 				<property name="unCheckUrls">
 					<list>
-						<value>/user/login*</value>
-						<value>/user/register*</value>
+						<value>/user/login/*</value>
+						<value>/user/register/*</value>
 						<value>/article/*</value>
 						<value>/static/*</value>
+						<value>/user/test*</value>
 					</list>
 				</property>
 			</bean>
