@@ -6,6 +6,10 @@ public interface IUserDao {
 	
 	public User findById(long id);
 
+	public User findUserByName(String name);
+
+	public User findUserByEmail(String email);
+
 	public User findByAccountName(String name);
 
 //		public List<User> selectAll();

@@ -33,6 +33,20 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
+  <select id="findUserByName" resultMap="User">
+    select
+    <include refid="User_Column_List" />
+    from t_user
+    where name = #{name}
+  </select>
+
+  <select id="findUserByEmail" resultMap="User">
+    select
+    <include refid="User_Column_List" />
+    from t_user
+    where email = #{email}
+  </select>
+
   <select id="findByAccountName" resultMap="User">
     select
     <include refid="User_Column_List" />

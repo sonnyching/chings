@@ -6,7 +6,7 @@ import com.chings.core.exception.HandleSuccessException;
 import com.chings.core.exception.UserNotFoundException;
 import com.chings.core.model.User;
 import com.chings.core.service.IUserService;
-import com.chings.core.utils.Constance;
+import com.chings.core.utils.Constant;
 import com.chings.core.utils.ResponseUtils;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserController extends AbstractController{
 	
 /*	@RequestMapping("/account")
 	public String accountHome(HttpServletRequest request, HttpServletResponse response,Model model){
-		User user = (User)request.getSession().getAttribute(Constance.PRE_LOGIN+request.getSession().getId());
+		User user = (User)request.getSession().getAttribute(Constant.PRE_LOGIN+request.getSession().getId());
 		if(user == null){
 			try {
 				response.sendRedirect("/user/login");
@@ -62,14 +62,14 @@ public class UserController extends AbstractController{
 		try {
 			user = userService.login(password,name);
 			if(user!=null){
-				res.getSession().setAttribute(Constance.PRE_LOGIN+res.getSession().getId(),user);
+				res.getSession().setAttribute(Constant.PRE_LOGIN+res.getSession().getId(),user);
 			}
 		} catch (UserNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			object = ResponseUtils.responseJosn(e);
 			return object;
 		} catch (RuntimeException e2) {
-			object = ResponseUtils.responseJosn(e2);
+			//object = ResponseUtils.responseJosn(e2);
 			return object;
 		}
 

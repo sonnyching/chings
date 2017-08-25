@@ -1,6 +1,9 @@
 package com.chings.core.service.impl;
 
 import com.chings.core.dao.IMessageDao;
+import com.chings.core.exception.DBException;
+import com.chings.core.exception.ParamException;
+import com.chings.core.model.Subscription;
 import com.chings.core.model.SubscriptionConfig;
 import com.chings.core.model.User;
 import com.chings.core.model.UserMessage;
@@ -40,23 +43,42 @@ public class MessageSerbiceImpl implements IMessageService{
     }
 
     @Override
-    public int createMessage(String content, User sender, User receiver) {
+    public int createMessage(String content, long sender, User receiver) {
         return 0;
     }
 
     @Override
-    public List<UserMessage> pullAnnounce(User user) {
+    public List<UserMessage> pullAnnounce(long user) {
         return null;
     }
 
     @Override
-    public List<UserMessage> pullRemind(User user) {
+    public List<UserMessage> pullRemind(long user) {
         return null;
     }
 
     @Override
-    public int subscribe(User user, long target, int targetType, String reason) {
-        return 0;
+    public int subscribe(long userId,List<Subscription> subscriptions){
+       if(subscriptions==null || subscriptions.size()<=0){
+           return -1;
+       }
+        for (Subscription sub :subscriptions) {
+            int result = this.subscribe(userId,sub.tartget,sub.targetType,sub.action);
+            if(result < 1){
+                throw new DBException("保存失败");
+            }
+        }
+
+       return 1;
+    }
+
+    private int subscribe(long user, long target, int targetType, String actions) {
+
+        if(user<=0){
+            throw new ParamException("用户id为空");
+        }
+
+        return messageDao.subscribe(user,target,targetType,actions);
     }
 
     @Override
@@ -76,6 +98,18 @@ public class MessageSerbiceImpl implements IMessageService{
 
     @Override
     public List<UserMessage> getUserNotify(long userId) {
+
+        //先找出用户订阅了哪些消息
+        List<Subscription> subscriptions = messageDao.querySubScribe(userId);
+
+        if(subscriptions==null || subscriptions.size()<=0){
+            return null;
+        }
+
+        //针对每种类型的消息去查询message表
+//        messageDao.queryMessages
+
+
         return null;
     }
 

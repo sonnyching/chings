@@ -18,13 +18,29 @@ public class AbstractController<T> {
 	 * @param info
 	 * @return
 	 */
-	public String createResponseString(int code,String info ){
+	public String createResponseString(int code,String info){
 
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("code", code);
 		jsonObject.put("info", info);
 
 		return jsonObject.toString();
+
+	}
+
+	/**
+	 *
+	 * @param code 状态（0失败，1成功）
+	 * @param data
+	 * @return
+	 */
+	public JSONObject createJSONObject(int code,Object data){
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("code", code);
+		jsonObject.put("data", data);
+
+		return jsonObject;
 
 	}
 	

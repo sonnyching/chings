@@ -1,16 +1,20 @@
 package com.chings.core.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class User {
 	public long id;
+	@NotNull
 	public String name;
 	public String mobile;
+	@NotNull
 	public String email;
 	public Date lock_time;
 	public Date lock_continue_times;
 	public int lock_state;
 	public int status;
+	@NotNull
 	public String password;
 	public Date create_time;
 	public int country;

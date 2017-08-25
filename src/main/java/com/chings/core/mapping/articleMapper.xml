@@ -22,7 +22,7 @@
   	parameterType="com.chings.core.conpont.Page" >
     select 
    		a.article_id, a.article_author, a.article_definition, a.article_type,a.article_intro,
-    	a.article_publish_date,a.article_last_edit_date,a.article_content,a.article_title,
+    	a.article_publish_date,a.article_last_edit_date,a.article_title,
     	d.dict_name as article_definition_name,
     	d2.dict_name as article_type_name,
     	user.user_nickname as article_author_nickname

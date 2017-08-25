@@ -2,8 +2,10 @@ package com.chings.core.interceptors;
 
 import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.User;
-import com.chings.core.utils.Constance;
+import com.chings.core.utils.Constant;
+import com.chings.core.utils.DateUtil;
 import com.chings.core.utils.ResponseUtils;
+import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -20,10 +22,14 @@ import java.util.List;
 public class DefaultInterceptor extends HandlerInterceptorAdapter {
 
     private List<String> unCheckUrls;
+    Logger loggger = Logger.getLogger("client access");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-       String fromUrl = request.getRequestURI();
+
+        welcomeLog(request);
+
+        String fromUrl = request.getRequestURI();
         if(unCheckUrls!=null && !unCheckUrls.isEmpty()){
             boolean flag = false;
             for (String url:unCheckUrls) {
@@ -43,7 +49,7 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
 
         //登陆拦截
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(Constance.PRE_LOGIN+session.getId());
+        User user = (User)session.getAttribute(Constant.PRE_LOGIN+session.getId());
         if(user==null){
             //进入登陆页
             //response.sendRedirect("/user/login");
@@ -82,4 +88,38 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
     public void setUnCheckUrls(List<String> unCheckUrls) {
         this.unCheckUrls = unCheckUrls;
     }
+
+    /**
+     * 打印控制台访问日志
+     */
+    public void welcomeLog(HttpServletRequest request){
+
+        String ip = getIpAddress(request);
+        String time = DateUtil.getNowDate("yyyy-MM-dd HH:mm:ss");
+        String requestURI = request.getRequestURI();
+        this.loggger.info(ip+" | "+time+" | "+requestURI );
+
+    }
+
+    public String getIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
+
+
 }

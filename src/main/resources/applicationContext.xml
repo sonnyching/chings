@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:p="http://www.springframework.org/schema/p"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xsi:schemaLocation="
@@ -39,24 +40,41 @@
 		<property name="maxWait" value="${maxWait}"></property>
 	</bean>
 
-	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<!-- MyBatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations" value="classpath:com/chings/core/mapping/*.xml"></property>
+
 	</bean>
 
-	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.chings.core.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
+	<!-- MyBatis配置 -->
 
-	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<!--事务-->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<!--事务-->
+
+	<!--&lt;!&ndash;redis&ndash;&gt;-->
+	<!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+		<!--<property name="maxIdle" value="${redis.maxIdle}" />-->
+		<!--<property name="maxActive" value="${redis.maxActive}" />-->
+		<!--<property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
+	<!--</bean>-->
+
+	<!--<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+		  <!--p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}"  p:pool-config-ref="poolConfig"/>-->
+
+	<!--<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">-->
+		<!--<property name="connectionFactory"   ref="connectionFactory" />-->
+	<!--</bean>-->
+	<!--&lt;!&ndash;redis&ndash;&gt;-->
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 

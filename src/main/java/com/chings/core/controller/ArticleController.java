@@ -1,26 +1,23 @@
 package com.chings.core.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.markdown4j.Markdown4jProcessor;
+import com.alibaba.fastjson.JSONArray;
+import com.chings.core.conpont.AbstractController;
+import com.chings.core.conpont.Page;
+import com.chings.core.model.Article;
+import com.chings.core.service.IArticleService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 //import com.alibaba.fastjson.JSONObject;
-import com.chings.core.conpont.AbstractController;
-import com.chings.core.conpont.Page;
-import com.chings.core.model.Article;
-import com.chings.core.service.IArticleService;
 
 @Controller
 @RequestMapping("/article")
@@ -30,14 +27,26 @@ public class ArticleController extends AbstractController<Article>{
 	private IArticleService articleService;
 	
 	@RequestMapping("/page")
-	public String pageArticle(HttpServletRequest request,HttpServletResponse res,Model model,Page<Article> page){
+	public void pageArticle(HttpServletRequest request,HttpServletResponse res,Model model,int currentPage){
+
+		if(currentPage<=0){
+			currentPage = 1;
+		}
+
+		Page<Article> page1 = new Page<Article>();
+		page1.setCurrentPage(currentPage);
+
+		Page<Article> resultPage = articleService.selectAllArticleByPage(page1);
 		
-		Page<Article> resultPage = articleService.selectAllArticleByPage(page);
-		
-		res.setCharacterEncoding("UTF-8");
-		model.addAttribute("page",resultPage);
-		
-		return "article/pageArticle";
+		JSONObject obj =  createJSONObject(1,resultPage);
+		String result = obj.toString();
+		try {
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@RequestMapping("/to_add_article")
@@ -46,6 +55,7 @@ public class ArticleController extends AbstractController<Article>{
 	}
 	
 	@RequestMapping("/add_article")
+	@ResponseBody
 	public void addArticle(HttpServletResponse res,Model model,Article artilce){
 		boolean isSuccess = false;
 		String createResponseString = "";
@@ -64,20 +74,30 @@ public class ArticleController extends AbstractController<Article>{
 	}
 	
 	@RequestMapping("/detail")
-	public String checkArticleDetail(Model model,@RequestParam("article_id")int article_id){
+	@ResponseBody
+	public void checkArticleDetail(Model model,HttpServletResponse res,@RequestParam("article_id")int article_id){
 		Article article = articleService.selectArticleById(article_id);
-		if(article==null){
-			return "error404";
-		}
+
 		String html = "";
+//		PegDownProcessor md = new PegDownProcessor();
+//		html = md.markdownToHtml(article.getArticle_content());
+//		try {
+//
+//			//html = new Markdown4jProcessor().process(article.getArticle_content());
+//		} catch (IOException e) {
+//			html = "";
+//		}
+//		article.setArticle_content(html);
+
+		JSONObject obj =  createJSONObject(1,article);
+		String result = obj.toString();
 		try {
-			html = new Markdown4jProcessor().process(article.getArticle_content());
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().write(result);
 		} catch (IOException e) {
-			html = "数据解析失败！";
+			e.printStackTrace();
 		}
-		article.setArticle_content(html);
-		model.addAttribute("article", article);
-		return "article/article_detail";
+
 	}
 	
 	@RequestMapping("/article_defs")
