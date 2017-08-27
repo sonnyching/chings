@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.chings.core.conpont.AbstractController;
 import com.chings.core.conpont.Page;
 import com.chings.core.model.Article;
+import com.chings.core.model.User;
 import com.chings.core.service.IArticleService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class ArticleController extends AbstractController<Article>{
 
 		Page<Article> resultPage = articleService.selectAllArticleByPage(page1);
 		
-		JSONObject obj =  createJSONObject(1,resultPage);
+		JSONObject obj =  createJSONObject(1,"",resultPage);
 		String result = obj.toString();
 		try {
 			res.setCharacterEncoding("UTF-8");
@@ -54,19 +55,21 @@ public class ArticleController extends AbstractController<Article>{
 		return "article/article_add";
 	}
 	
-	@RequestMapping("/add_article")
+	@RequestMapping("/add")
 	@ResponseBody
-	public void addArticle(HttpServletResponse res,Model model,Article artilce){
-		boolean isSuccess = false;
+	public void addArticle(HttpServletResponse res,HttpServletRequest request,Model model,Article artilce){
+		long articleId = 0;
 		String createResponseString = "";
+
 		try {
-			isSuccess = articleService.insertArticle(artilce);
-			createResponseString = createResponseString(isSuccess?1:0, isSuccess?"success":"failed");
-			res.setCharacterEncoding("UTF-8");
+			User user = getCurrUser(request.getSession());
+			artilce.setUserId(user.id);
+			articleId = articleService.insertArticle(artilce);
+			createResponseString = createJSONObject(articleId>0?1:-1, artilce.getId()+"","").toString();
 			printString(res, createResponseString);
 		} catch (Exception e) {
 			e.printStackTrace();
-			createResponseString = createResponseString(0,"failed");
+			createResponseString = createJSONObject(-1,"failed","").toString();
 			printString(res, createResponseString);
 		}
 		
@@ -75,21 +78,12 @@ public class ArticleController extends AbstractController<Article>{
 	
 	@RequestMapping("/detail")
 	@ResponseBody
-	public void checkArticleDetail(Model model,HttpServletResponse res,@RequestParam("article_id")int article_id){
+	public void articleDetail(Model model,HttpServletResponse res,@RequestParam("article_id")int article_id){
 		Article article = articleService.selectArticleById(article_id);
 
 		String html = "";
-//		PegDownProcessor md = new PegDownProcessor();
-//		html = md.markdownToHtml(article.getArticle_content());
-//		try {
-//
-//			//html = new Markdown4jProcessor().process(article.getArticle_content());
-//		} catch (IOException e) {
-//			html = "";
-//		}
-//		article.setArticle_content(html);
 
-		JSONObject obj =  createJSONObject(1,article);
+		JSONObject obj =  createJSONObject(1,"",article);
 		String result = obj.toString();
 		try {
 			res.setCharacterEncoding("UTF-8");
@@ -99,18 +93,17 @@ public class ArticleController extends AbstractController<Article>{
 		}
 
 	}
+
 	
-	@RequestMapping("/article_defs")
-	public void selectArticleDefs(HttpServletResponse res){
-		JSONArray defs = articleService.selectArticleDefs();
-		printString(res, defs.toJSONString());
-		
-	}
-	
-	@RequestMapping("/article_types")
-	public void selectArticleTypes(HttpServletResponse res){
-		JSONArray defs = articleService.selectArticleTypes();
-		printString(res, defs.toJSONString());
+	@RequestMapping("/types")
+	public void selectArticleTypes(HttpServletRequest request,HttpServletResponse res){
+		User user = getCurrUser(request.getSession());
+		if(user==null){
+			printString(res,createJSONObject(-1,"用户未登录","").toString());
+			return;
+		}
+		JSONArray defs = articleService.selectArticleTypes(user.id);
+		printString(res,createJSONObject(1,"用户未登录",defs).toString());
 	}
 	
 	

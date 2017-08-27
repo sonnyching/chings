@@ -47,17 +47,14 @@ public class ArticleServiceImpl implements IArticleService {
 
 
 	@Override
-	public boolean insertArticle(Article artilce) {
-		if(artilce==null){
-			return false;
+	public long insertArticle(Article article) {
+		if(article==null){
+			return 0;
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date = format.format(new Date());
-		artilce.setArticle_publish_date(date);
-		artilce.setArticle_last_edit_date(date);
-		artilce.setArticle_author("sonnyching");
-		int result = articleDao.insertArticle(artilce);
-		return result>0?true:false;
+		Date now = new Date();
+		article.setCreateTime(now);
+		article.setUpdateTime(now);
+		return articleDao.insertArticle(article);
 	}
 
 	@Override
@@ -96,16 +93,16 @@ public class ArticleServiceImpl implements IArticleService {
 	}
 	
 	@Override
-	public JSONArray selectArticleTypes(){
-		List<Map> types = articleDao.selectArticleTypes();
+	public JSONArray selectArticleTypes(long userId){
+		List<Map> types = articleDao.selectArticleTypes(userId);
 		JSONArray array = new JSONArray();
 		if(types!=null && types.size()>0){
 			for (Map map : types) {
-				int dict_id = (int) map.get("dict_id");
-				String dict_name = (String) map.get("dict_name");
+				long dict_id = (long) map.get("id");
+				String dict_name = (String) map.get("name");
 				JSONObject object = new JSONObject();
-				object.put("dict_id", dict_id);
-				object.put("dict_name", dict_name);
+				object.put("id", dict_id);
+				object.put("name", dict_name);
 				array.add(object);
 			}
 		}

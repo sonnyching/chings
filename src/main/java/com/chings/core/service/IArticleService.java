@@ -1,7 +1,5 @@
 package com.chings.core.service;
 
-import java.util.List;
-
 import com.alibaba.fastjson.JSONArray;
 import com.chings.core.conpont.Page;
 import com.chings.core.model.Article;
@@ -12,7 +10,7 @@ public interface IArticleService {
 	
 	public Article selectArticleById(int id);
 	
-	public boolean insertArticle(Article artilce);
+	public long insertArticle(Article artilce);
 	
 	public boolean deleteArticle(int artilce_id);
 	
@@ -20,6 +18,6 @@ public interface IArticleService {
 	
 	public JSONArray selectArticleDefs();
 	
-	public JSONArray selectArticleTypes();
+	public JSONArray selectArticleTypes(long userId);
 	
 }

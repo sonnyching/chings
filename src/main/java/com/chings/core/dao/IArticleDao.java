@@ -15,7 +15,7 @@ public interface IArticleDao {
 	
 	public Article selectArticleById(int id);
 	
-	public int insertArticle(Article artilce);
+	public long insertArticle(Article artilce);
 	
 	public int deleteArticle(int artilce_id);
 	
@@ -23,7 +23,7 @@ public interface IArticleDao {
 	
 	public List<Map> selectArticleDefs();
 	
-	public List<Map> selectArticleTypes();
+	public List<Map> selectArticleTypes(long userId);
 	
 	public int countArticles();
 	
