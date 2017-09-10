@@ -2,7 +2,6 @@ package com.chings.core.interceptors;
 
 import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.User;
-import com.chings.core.utils.Constant;
 import com.chings.core.utils.DateUtil;
 import com.chings.core.utils.ResponseUtils;
 import org.apache.log4j.Logger;
@@ -28,28 +27,29 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         welcomeLog(request);
-
+        //Log.info((unCheckUrls.size()));
         String fromUrl = request.getRequestURI();
         if(unCheckUrls!=null && !unCheckUrls.isEmpty()){
             boolean flag = false;
             for (String url:unCheckUrls) {
                 if(url.endsWith("*")){
-                    flag = fromUrl.startsWith(url.substring(0,url.length()-1));
+                    //Log.info(url+"statr with *");
+                    flag = fromUrl.startsWith(url.substring(0,url.length()-1)) || fromUrl.startsWith("/chings"+url.substring(0,url.length()-1));
                 }else{
-                    flag = fromUrl.equals(url);
+                    flag = fromUrl.equals(url) || fromUrl.equals("/chings"+url);
                 }
                 if(flag){
-                    break;
+                    //Log.info("gogogo");
+                    return true;
                 }
-            }
-            if(flag){
-                return true;
             }
         }
 
         //登陆拦截
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute(Constant.PRE_LOGIN+session.getId());
+        //Log.info("session:"+session.getId());
+        User user = (User)session.getAttribute(session.getId());
+        //Log.info("user:"+user);
         if(user==null){
             //进入登陆页
             //response.sendRedirect("/user/login");

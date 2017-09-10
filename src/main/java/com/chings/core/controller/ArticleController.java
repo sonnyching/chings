@@ -82,7 +82,7 @@ public class ArticleController extends AbstractController<Article>{
 		Article article = articleService.selectArticleById(article_id);
 
 		String html = "";
-
+		//Log.info(article.getTitle());
 		JSONObject obj =  createJSONObject(1,"",article);
 		String result = obj.toString();
 		try {
