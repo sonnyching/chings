@@ -6,7 +6,6 @@ import com.chings.core.exception.HandleSuccessException;
 import com.chings.core.exception.UserNotFoundException;
 import com.chings.core.model.User;
 import com.chings.core.service.IUserService;
-import com.chings.core.utils.Constant;
 import com.chings.core.utils.Log;
 import com.chings.core.utils.ResponseUtils;
 import net.sf.json.JSONObject;
@@ -64,7 +63,7 @@ public class UserController extends AbstractController{
 			Log.info("name="+name+",pwd="+password);
 			user = userService.login(password,name);
 			if(user!=null){
-				res.getSession().setAttribute(Constant.PRE_LOGIN+res.getSession().getId(),user);
+				res.getSession().setAttribute(res.getSession().getId(),user);
 			}
 		} catch (UserNotFoundException e) {
 			//e.printStackTrace();
