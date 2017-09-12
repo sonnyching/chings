@@ -79,6 +79,7 @@ public class UserController extends AbstractController{
 		}
 
 		object = ResponseUtils.responseJosn(new HandleSuccessException("登录成功！"));
+		object.put("token",res.getSession().getId());
 		return object;
 	}
 
