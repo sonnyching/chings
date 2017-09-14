@@ -1,30 +1,29 @@
 package com.chings.core.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chings.core.conpont.Page;
 import com.chings.core.dao.IArticleDao;
 import com.chings.core.model.Article;
 import com.chings.core.service.IArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements IArticleService {
 	
 	@Autowired
 	private IArticleDao articleDao;
-	
+
 	@Override
 	public Page<Article> selectAllArticleByPage(Page<Article> page) {
 		if(page!=null){
-			
+
 			List<Article> list = articleDao.selectAllArticleByPage(page);
 			int countArticles = articleDao.countArticles();
 			page.setList(list);
@@ -34,8 +33,8 @@ public class ArticleServiceImpl implements IArticleService {
 		return null;
 	}
 
-	
-	
+
+
 	@Override
 	public Article selectArticleById(int id) {
 		if(id==0){
@@ -74,7 +73,7 @@ public class ArticleServiceImpl implements IArticleService {
 		int result = articleDao.updateArticle(artilce);
 		return result>0?true:false;
 	}
-	
+
 	@Override
 	public JSONArray selectArticleDefs(){
 		List<Map> defs =  articleDao.selectArticleDefs();
@@ -91,7 +90,7 @@ public class ArticleServiceImpl implements IArticleService {
 		}
 		return array;
 	}
-	
+
 	@Override
 	public JSONArray selectArticleTypes(long userId){
 		List<Map> types = articleDao.selectArticleTypes(userId);
@@ -108,6 +107,16 @@ public class ArticleServiceImpl implements IArticleService {
 		}
 		return array;
 	}
-	
 
+
+	@Override
+	public List<Map> managerArticles(String keywords, Date startDate, Date endDate) {
+		List<Map> articles = articleDao.managerArticles(keywords,startDate,endDate);
+
+		if(articles!=null){
+			return articles;
+		}
+
+		return new ArrayList<Map>();
+	}
 }

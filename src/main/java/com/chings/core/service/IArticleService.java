@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.chings.core.conpont.Page;
 import com.chings.core.model.Article;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 public interface IArticleService {
 	
 	public Page<Article> selectAllArticleByPage(Page<Article> page);
@@ -19,5 +23,8 @@ public interface IArticleService {
 	public JSONArray selectArticleDefs();
 	
 	public JSONArray selectArticleTypes(long userId);
-	
+
+	public List<Map> managerArticles(String keywords, Date startDate, Date endDate);
+
+
 }

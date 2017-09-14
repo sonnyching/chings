@@ -50,6 +50,19 @@
         where user_id = #{userId}
     </select>
 
+
+    <select id="managerArticles" resultType="java.util.HashMap" >
+        select
+        id,title,create_time
+        from t_article
+       <!-- <where>
+            <if test="keywords!=""">
+                title like CONCAT('%',#{keywords},'%')
+            </if>
+        </where>-->
+        order by id desc
+    </select>
+
     <!--文章简介
       <resultMap id="Article_info" type="com.chings.core.model.Article" >
         <id column="article_id" property="article_id" jdbcType="INTEGER" />

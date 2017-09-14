@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 //import com.alibaba.fastjson.JSONObject;
 
@@ -105,7 +108,19 @@ public class ArticleController extends AbstractController<Article>{
 		JSONArray defs = articleService.selectArticleTypes(user.id);
 		printString(res,createJSONObject(1,"用户未登录",defs).toString());
 	}
-	
-	
+
+	/**
+	 * 管理员页面-文章列表
+	 * @return
+	 */
+	@RequestMapping("/supervisor/article/list")
+	@ResponseBody
+	public JSONObject managerArticleList(String keywords, Date startdate, Date enddate){
+
+		List<Map> maps = articleService.managerArticles(keywords,startdate,enddate);
+		return createJSONObject(0,"ok",maps);
+
+	}
+
 	
 }
