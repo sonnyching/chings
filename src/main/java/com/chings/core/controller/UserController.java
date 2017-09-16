@@ -60,7 +60,7 @@ public class UserController extends AbstractController{
 
 		User user = null;
 		try {
-			Log.info("name="+name+",pwd="+password);
+//			Log.info("name="+name+",pwd="+password);
 			user = userService.login(password,name);
 			if(user!=null){
 				res.getSession().setAttribute(res.getSession().getId(),user);

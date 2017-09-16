@@ -2,12 +2,17 @@ package com.chings.core.conpont;
 
 import com.chings.core.model.User;
 import com.chings.core.utils.Constant;
+import com.chings.core.utils.JsonDateValueProcessor;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AbstractController<T> {
 	
@@ -24,9 +29,16 @@ public class AbstractController<T> {
 	public JSONObject createJSONObject(int code,String info,Object data){
 
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("code", code);
-		jsonObject.put("info", info);
-		jsonObject.put("data", data);
+		Map map = new HashMap<String,Object>();
+		map.put("code", code);
+		map.put("info", info);
+		map.put("data", data);
+
+		//时间格式转换
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+
+		jsonObject.putAll(map,jsonConfig);
 
 		return jsonObject;
 
@@ -47,7 +59,7 @@ public class AbstractController<T> {
 	}
 
 	public User getCurrUser(HttpSession session){
-		return (User)session.getAttribute(Constant.PRE_LOGIN+session.getId());
+		return (User)session.getAttribute(session.getId());
 	}
 	
 //	/**

@@ -42,7 +42,7 @@ public class ArticleController extends AbstractController<Article>{
 
 		Page<Article> resultPage = articleService.selectAllArticleByPage(page1);
 		
-		JSONObject obj =  createJSONObject(1,"",resultPage);
+		JSONObject obj =  createJSONObject(0,"",resultPage);
 		String result = obj.toString();
 		try {
 			res.setCharacterEncoding("UTF-8");
@@ -68,7 +68,7 @@ public class ArticleController extends AbstractController<Article>{
 			User user = getCurrUser(request.getSession());
 			artilce.setUserId(user.id);
 			articleId = articleService.insertArticle(artilce);
-			createResponseString = createJSONObject(articleId>0?1:-1, artilce.getId()+"","").toString();
+			createResponseString = createJSONObject(articleId>0?0:-1, artilce.getId()+"","").toString();
 			printString(res, createResponseString);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class ArticleController extends AbstractController<Article>{
 
 		String html = "";
 		//Log.info(article.getTitle());
-		JSONObject obj =  createJSONObject(1,"",article);
+		JSONObject obj =  createJSONObject(0,"",article);
 		String result = obj.toString();
 		try {
 			res.setCharacterEncoding("UTF-8");
@@ -106,7 +106,7 @@ public class ArticleController extends AbstractController<Article>{
 			return;
 		}
 		JSONArray defs = articleService.selectArticleTypes(user.id);
-		printString(res,createJSONObject(1,"用户未登录",defs).toString());
+		printString(res,createJSONObject(0,"",defs).toString());
 	}
 
 	/**
