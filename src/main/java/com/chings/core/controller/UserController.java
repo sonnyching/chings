@@ -97,5 +97,20 @@ public class UserController extends AbstractController{
 		object.put("msg","test");
 		return object;
 	}
-	
+
+	/**
+	 * 判断用户是否登陆成功
+	 * @param token
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/isLogin")
+	@ResponseBody
+	public JSONObject isUserLogin(String token,HttpServletRequest request){
+		//实际上拦截器已经校验了session,若能进这里来的话，说明已经登陆成功了
+		return createJSONObject(0,"成功","");
+
+	}
+
+
 }

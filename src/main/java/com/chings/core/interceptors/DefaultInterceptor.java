@@ -4,6 +4,7 @@ import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.User;
 import com.chings.core.utils.DateUtil;
 import com.chings.core.utils.ResponseUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -45,7 +46,14 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
             }
         }
 
+
         //登陆拦截
+        //判断用户是否登陆，根据其携带的token-session来判断
+      /*  String chings_token = request.getParameter("chings_token");
+        if(StringUtils.isEmpty(chings_token)){
+            return false;
+        }*/
+
         HttpSession session = request.getSession();
         //Log.info("session:"+session.getId());
         User user = (User)session.getAttribute(session.getId());
