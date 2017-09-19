@@ -16,9 +16,9 @@ public interface IArticleService {
 	
 	public long insertArticle(Article artilce);
 	
-	public boolean deleteArticle(int artilce_id);
+	public long deleteArticle(long id);
 	
-	public boolean updateArticle(Article artilce);
+	public int updateArticle(Article artilce);
 	
 	public JSONArray selectArticleDefs();
 	

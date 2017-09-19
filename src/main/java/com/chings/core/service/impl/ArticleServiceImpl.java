@@ -56,22 +56,13 @@ public class ArticleServiceImpl implements IArticleService {
 		return articleDao.insertArticle(article);
 	}
 
-	@Override
-	public boolean deleteArticle(int artilce_id) {
-		if(artilce_id==0){
-			return false;
-		}
-		int result = articleDao.deleteArticle(artilce_id);
-		return result>0?true:false;
-	}
 
 	@Override
-	public boolean updateArticle(Article artilce) {
+	public int updateArticle(Article artilce) {
 		if(artilce==null){
-			return false;
+			return -1;
 		}
-		int result = articleDao.updateArticle(artilce);
-		return result>0?true:false;
+		return articleDao.updateArticle(artilce);
 	}
 
 	@Override
@@ -118,5 +109,10 @@ public class ArticleServiceImpl implements IArticleService {
 		}
 
 		return new ArrayList<Map>();
+	}
+
+	@Override
+	public int deleteArticle(int id) {
+		return articleDao.deleteArticle(id);
 	}
 }

@@ -63,6 +63,15 @@
         order by id desc
     </select>
 
+    <update id="updateArticle" parameterType="com.chings.core.model.Article">
+        update from t_article set content=#{content},title=#{title},update_time=now() where id = #{id}
+    </update>
+
+    <update id="deleteArticle" parameterType="java.lang.Long">
+        delete t_article where id = #{id}
+    </update>
+
+
     <!--文章简介
       <resultMap id="Article_info" type="com.chings.core.model.Article" >
         <id column="article_id" property="article_id" jdbcType="INTEGER" />

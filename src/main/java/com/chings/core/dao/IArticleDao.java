@@ -19,7 +19,7 @@ public interface IArticleDao {
 	
 	public long insertArticle(Article artilce);
 	
-	public int deleteArticle(int artilce_id);
+	public int deleteArticle(long id);
 	
 	public int updateArticle(Article artilce);
 	

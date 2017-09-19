@@ -122,5 +122,39 @@ public class ArticleController extends AbstractController<Article>{
 
 	}
 
+
+	@RequestMapping("/edit")
+	@ResponseBody
+	public JSONObject editArticle(HttpServletResponse res,HttpServletRequest request,Article artilce){
+
+		int result = 0;
+		JSONObject obj = null;
+		try {
+			articleService.updateArticle(artilce);
+			result = articleService.updateArticle(artilce);
+			obj = createJSONObject(result>0?0:-1, "更新成功","");
+		} catch (Exception e) {
+			e.printStackTrace();
+			obj = createJSONObject(-1,"failed","");
+		}
+
+		return obj;
+	}
+
+	@RequestMapping("/delete")
+	public JSONObject deleteArticle(long id){
+		long result = 0;
+		JSONObject obj = null;
+		try {
+			result = articleService.deleteArticle(id);
+			obj = createJSONObject(result>0?0:-1, "删除成功","");
+		} catch (Exception e) {
+			e.printStackTrace();
+			obj = createJSONObject(-1,"failed","");
+		}
+
+		return obj;
+
+	}
 	
 }
