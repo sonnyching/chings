@@ -1,5 +1,6 @@
 package com.chings.core.conpont;
 
+import com.chings.core.exception.AbsException;
 import com.chings.core.model.User;
 import com.chings.core.utils.Constant;
 import com.chings.core.utils.JsonDateValueProcessor;
@@ -32,6 +33,24 @@ public class AbstractController<T> {
 		Map map = new HashMap<String,Object>();
 		map.put("code", code);
 		map.put("info", info);
+		map.put("data", data);
+
+		//时间格式转换
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+
+		jsonObject.putAll(map,jsonConfig);
+
+		return jsonObject;
+
+	}
+
+	public JSONObject createJSONObject(AbsException e, Object data){
+
+		JSONObject jsonObject = new JSONObject();
+		Map map = new HashMap<String,Object>();
+		map.put("code", e.getCode());
+		map.put("info", e.getMsg());
 		map.put("data", data);
 
 		//时间格式转换

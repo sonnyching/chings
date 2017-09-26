@@ -111,8 +111,10 @@ public class ArticleServiceImpl implements IArticleService {
 		return new ArrayList<Map>();
 	}
 
+
 	@Override
-	public int deleteArticle(int id) {
+	public long deleteArticle(long id) {
 		return articleDao.deleteArticle(id);
 	}
+
 }

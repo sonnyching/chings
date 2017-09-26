@@ -3,9 +3,11 @@ package com.chings.core.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.chings.core.conpont.AbstractController;
 import com.chings.core.conpont.Page;
+import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.Article;
 import com.chings.core.model.User;
 import com.chings.core.service.IArticleService;
+import com.chings.core.utils.Log;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -102,9 +104,10 @@ public class ArticleController extends AbstractController<Article>{
 	public void selectArticleTypes(HttpServletRequest request,HttpServletResponse res){
 		User user = getCurrUser(request.getSession());
 		if(user==null){
-			printString(res,createJSONObject(-1,"用户未登录","").toString());
+			printString(res,createJSONObject(new UserNotLogin("用户登录"),"").toString());
 			return;
 		}
+
 		JSONArray defs = articleService.selectArticleTypes(user.id);
 		printString(res,createJSONObject(0,"",defs).toString());
 	}
