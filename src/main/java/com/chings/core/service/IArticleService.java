@@ -26,5 +26,7 @@ public interface IArticleService {
 
 	public List<Map> managerArticles(String keywords, Date startDate, Date endDate);
 
+	public long addEmptyArticle(long userId,long type);
+
 
 }

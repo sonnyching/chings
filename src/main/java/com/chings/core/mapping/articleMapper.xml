@@ -40,7 +40,7 @@
     <select id="countArticles" resultType="java.lang.Integer">
         select
         count(*)
-        from tab_article
+        from t_article
     </select>
 
     <select id="selectArticleTypes" resultType="java.util.HashMap" parameterType="java.lang.Long">
@@ -71,88 +71,15 @@
         delete t_article where id = #{id}
     </update>
 
+    <insert id="addEmptyArticle"
+            keyProperty="id"
+            parameterType="com.chings.core.model.Article"
+            useGeneratedKeys="true">
 
-    <!--文章简介
-      <resultMap id="Article_info" type="com.chings.core.model.Article" >
-        <id column="article_id" property="article_id" jdbcType="INTEGER" />
-        <result column="article_author" property="article_author" jdbcType="VARCHAR" />
-        <result column="article_title" property="article_title" jdbcType="VARCHAR" />
-        <result column="article_definition" property="article_definition" jdbcType="INTEGER" />
-        <result column="article_type" property="article_type" jdbcType="INTEGER" />
-        <result column="article_intro" property="article_intro" jdbcType="VARCHAR" />
-        <result column="article_publish_date" property="article_publish_date" jdbcType="VARCHAR" />
-      </resultMap>
+       insert into t_article(user_id,type,create_time,update_time)
+            values(#{userId},#{type},#{title},#{createTime},#{updateTime})
 
-      <sql id="article_columns" >
-        article_id, article_author, article_definition, article_type,article_intro,
-        article_publish_date,article_last_edit_date,article_content,article_title
-      </sql>
+    </insert>
 
-      <select id="selectAllArticleByPage" resultType="com.chings.core.model.Article"
-          parameterType="com.chings.core.conpont.Page" >
-        select
-               a.article_id, a.article_author, a.article_definition, a.article_type,a.article_intro,
-            a.article_publish_date,a.article_last_edit_date,a.article_title,
-            d.dict_name as article_definition_name,
-            d2.dict_name as article_type_name,
-            user.user_nickname as article_author_nickname
-        from tab_article a
-        left join tab_dict d on a.article_definition=d.dict_id
-        left join tab_dict d2 on a.article_type=d2.dict_id
-        left join tab_user user on a.article_author=user.user_nickname
-        order by a.article_id desc limit #{pageStartRow},#{pageEndRow}
-      </select>
-
-      <insert id="insertArticle"
-        useGeneratedKeys="true" keyProperty="id"
-        parameterType="com.chings.core.model.Article">
-        insert into tab_article(
-                article_author, article_definition,article_type,
-                article_intro,article_publish_date,
-                article_last_edit_date,article_content,
-                article_title)
-               values(
-                   #{article_author},#{article_definition},#{article_type},
-                   #{article_intro},#{article_publish_date},
-                   #{article_last_edit_date},#{article_content},
-                   #{article_title}
-               )
-      </insert>
-
-      <select id="selectArticleById" resultType="com.chings.core.model.Article"
-          parameterType="java.lang.Integer" >
-         select
-               a.article_id, a.article_author, a.article_definition, a.article_type,a.article_intro,
-            a.article_publish_date,a.article_last_edit_date,a.article_content,a.article_title,
-            d.dict_name as article_definition_name,
-            d2.dict_name as article_type_name,
-            user.user_nickname as article_author_nickname
-        from tab_article a
-        left join tab_dict d on a.article_definition=d.dict_id
-        left join tab_dict d2 on a.article_type=d2.dict_id
-        left join tab_user user on a.article_author=user.user_nickname
-        where a.article_id = #{id,jdbcType=INTEGER}
-      </select>
-
-      <select id="selectArticleDefs" resultType="java.util.HashMap">
-        select
-            dict_id,dict_name
-        from tab_dict
-        where dict_type = 'article_definition'
-      </select>
-
-       <select id="selectArticleTypes" resultType="java.util.HashMap">
-        select
-            dict_id,dict_name
-        from tab_dict
-        where dict_type = 'article_type'
-      </select>
-
-       <select id="countArticles" resultType="java.lang.Integer">
-        select
-            count(*)
-        from tab_article
-      </select>
-    -->
 
 </mapper>

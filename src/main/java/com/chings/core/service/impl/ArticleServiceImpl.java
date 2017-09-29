@@ -117,4 +117,23 @@ public class ArticleServiceImpl implements IArticleService {
 		return articleDao.deleteArticle(id);
 	}
 
+	@Override
+	public long addEmptyArticle(long userId,long typeId) {
+
+		Date now = new Date();
+
+		Article article = new Article();
+		article.userId = userId;
+		article.type = typeId;
+		article.createTime = now;
+		article.updateTime = now;
+
+		try {
+			return articleDao.addEmptyArticle(article);
+		}catch (Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+
+	}
 }

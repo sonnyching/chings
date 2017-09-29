@@ -82,13 +82,18 @@ public class ArticleController extends AbstractController<Article>{
 	}
 	
 	@RequestMapping("/detail")
-	@ResponseBody
 	public void articleDetail(Model model,HttpServletResponse res,@RequestParam("article_id")int article_id){
 		Article article = articleService.selectArticleById(article_id);
 
 		String html = "";
-		//Log.info(article.getTitle());
-		JSONObject obj =  createJSONObject(0,"",article);
+
+		JSONObject obj = null;
+		if(article==null){
+			obj =  createJSONObject(1,"文章加载失败","");
+		}else{
+			obj =  createJSONObject(0,"",article);
+		}
+
 		String result = obj.toString();
 		try {
 			res.setCharacterEncoding("UTF-8");
@@ -159,5 +164,25 @@ public class ArticleController extends AbstractController<Article>{
 		return obj;
 
 	}
+
+	@RequestMapping("/new")
+	@ResponseBody
+	public JSONObject addEmptyArticle(HttpServletRequest request,int typeId){
+
+		JSONObject obj = null;
+
+		User user = getCurrUser(request.getSession());
+
+		long newId = articleService.addEmptyArticle(user.id,typeId);
+
+		if(newId<=0){
+			obj = createJSONObject(-1,"操作失败",newId);
+		}else{
+			obj = createJSONObject(0,"成功",newId);
+		}
+
+		return obj;
+	}
+
 	
 }
