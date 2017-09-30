@@ -53,7 +53,7 @@
 
     <select id="managerArticles" resultType="java.util.HashMap" >
         select
-        id,title,create_time
+        id,title,create_time,type
         from t_article
        <!-- <where>
             <if test="keywords!=""">
@@ -64,20 +64,21 @@
     </select>
 
     <update id="updateArticle" parameterType="com.chings.core.model.Article">
-        update from t_article set content=#{content},title=#{title},update_time=now() where id = #{id}
+        update t_article set content=#{content},title=#{title},update_time=#{updateTime} where id = #{id}
     </update>
 
     <update id="deleteArticle" parameterType="java.lang.Long">
-        delete t_article where id = #{id}
+        delete from t_article where id = #{id}
     </update>
 
     <insert id="addEmptyArticle"
+            useGeneratedKeys="true"
             keyProperty="id"
             parameterType="com.chings.core.model.Article"
-            useGeneratedKeys="true">
+            >
 
-       insert into t_article(user_id,type,create_time,update_time)
-            values(#{userId},#{type},#{title},#{createTime},#{updateTime})
+       insert into t_article(user_id,type,content,create_time,update_time)
+            values(#{userId},#{type},#{content},#{createTime},#{updateTime})
 
     </insert>
 

@@ -62,6 +62,7 @@ public class ArticleServiceImpl implements IArticleService {
 		if(artilce==null){
 			return -1;
 		}
+		artilce.updateTime = new Date();
 		return articleDao.updateArticle(artilce);
 	}
 
@@ -127,13 +128,17 @@ public class ArticleServiceImpl implements IArticleService {
 		article.type = typeId;
 		article.createTime = now;
 		article.updateTime = now;
+		article.content = "";
 
 		try {
-			return articleDao.addEmptyArticle(article);
+			long result = articleDao.addEmptyArticle(article);
+			if(result>0){
+				return article.getId();
+			}
 		}catch (Exception e){
 			e.printStackTrace();
-			return -1;
 		}
+		return -1;
 
 	}
 }
