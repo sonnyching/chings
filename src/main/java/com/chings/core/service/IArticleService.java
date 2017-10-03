@@ -3,6 +3,7 @@ package com.chings.core.service;
 import com.alibaba.fastjson.JSONArray;
 import com.chings.core.conpont.Page;
 import com.chings.core.model.Article;
+import com.chings.core.model.User;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface IArticleService {
 	
 	public long insertArticle(Article artilce);
 	
-	public long deleteArticle(long id);
+	public int deleteArticle(long id);
 	
 	public int updateArticle(Article artilce);
 	
@@ -28,5 +29,8 @@ public interface IArticleService {
 
 	public long addEmptyArticle(long userId,long type);
 
+	public int putArticleOff(User user, long articleId);
+
+	public int putArticleOn(User user, long articleId);
 
 }

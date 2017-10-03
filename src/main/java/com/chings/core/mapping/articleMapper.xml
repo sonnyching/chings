@@ -34,6 +34,7 @@
 	      from t_article a
           left join t_article_type b on a.type=b.id
           left join t_user user on a.user_id=user.id
+          where a.status != 0 and a.status != 2
           order by a.id desc limit #{pageStartRow},#{pageEndRow}
     </select>
 
@@ -53,13 +54,14 @@
 
     <select id="managerArticles" resultType="java.util.HashMap" >
         select
-        id,title,create_time,type
+        id,title,create_time,type,status
         from t_article
        <!-- <where>
             <if test="keywords!=""">
                 title like CONCAT('%',#{keywords},'%')
             </if>
         </where>-->
+        where status != 2
         order by id desc
     </select>
 
@@ -82,5 +84,9 @@
 
     </insert>
 
+    <update id="updateArticleStatus"
+            parameterType="com.chings.core.model.Article">
+        UPDATE t_article set status = #{status} where id=#{id}
+    </update>
 
 </mapper>

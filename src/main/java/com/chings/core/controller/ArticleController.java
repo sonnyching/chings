@@ -8,6 +8,7 @@ import com.chings.core.model.Article;
 import com.chings.core.model.User;
 import com.chings.core.service.IArticleService;
 import com.chings.core.utils.Log;
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -183,6 +184,40 @@ public class ArticleController extends AbstractController<Article>{
 
 		return obj;
 	}
+
+	/**
+	 * 文章下架
+	 * @return
+	 */
+	@RequestMapping("/articleOff")
+	@ResponseBody
+	public JSONObject articleOffLine(HttpServletRequest request,int articleId){
+		User user = getCurrUser(request.getSession());
+		int result = articleService.putArticleOff(user,articleId);
+		if(result<=0){
+			return createJSONObject(-1,"操作失败",null);
+		}else{
+			return createJSONObject(0,"成功",null);
+		}
+
+	}
+
+	/**
+	 * 文章上架
+	 * @return
+	 */
+	@RequestMapping("/articleOn")
+	@ResponseBody
+	public JSONObject articleOnLine(HttpServletRequest request,int articleId){
+		User user = getCurrUser(request.getSession());
+		int result = articleService.putArticleOn(user,articleId);
+		if(result<=0){
+			return createJSONObject(-1,"操作失败",null);
+		}else{
+			return createJSONObject(0,"成功",null);
+		}
+	}
+
 
 	
 }

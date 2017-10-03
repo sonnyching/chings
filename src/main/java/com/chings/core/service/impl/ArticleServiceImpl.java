@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.chings.core.conpont.Page;
 import com.chings.core.dao.IArticleDao;
 import com.chings.core.model.Article;
+import com.chings.core.model.User;
 import com.chings.core.service.IArticleService;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -112,12 +114,6 @@ public class ArticleServiceImpl implements IArticleService {
 		return new ArrayList<Map>();
 	}
 
-
-	@Override
-	public long deleteArticle(long id) {
-		return articleDao.deleteArticle(id);
-	}
-
 	@Override
 	public long addEmptyArticle(long userId,long typeId) {
 
@@ -141,4 +137,46 @@ public class ArticleServiceImpl implements IArticleService {
 		return -1;
 
 	}
+
+
+	@Override
+	public int putArticleOff(User user, long articleId) {
+		try {
+			Article article = new Article();
+			article.setId(articleId);
+			article.setStatus(0);
+			return articleDao.updateArticleStatus(article);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public int putArticleOn(User user, long articleId) {
+		try {
+			Article article = new Article();
+			article.setId(articleId);
+			article.setStatus(1);
+			return articleDao.updateArticleStatus(article);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public int deleteArticle(long articleId) {
+		try {
+			Article article = new Article();
+			article.setId(articleId);
+			article.setStatus(2);
+			return articleDao.updateArticleStatus(article);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+
+	}
+
 }

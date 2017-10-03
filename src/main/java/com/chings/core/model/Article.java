@@ -20,6 +20,8 @@ public class Article {
 	public String authorName;
 	public String typeName;
 
+	public int status;
+
 	public long getId() {
 		return id;
 	}
@@ -90,6 +92,14 @@ public class Article {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	//	private int article_id;
