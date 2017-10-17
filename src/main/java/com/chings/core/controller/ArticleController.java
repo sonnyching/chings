@@ -220,7 +220,8 @@ public class ArticleController extends AbstractController<Article>{
 	}
 
 	@RequestMapping("/updateViews")
-	public void updateArticleViews(HttpServletRequest request,long articleId){
+	@ResponseBody
+	public JSONObject updateArticleViews(HttpServletRequest request,HttpServletResponse res,long articleId){
 		User user = getCurrUser(request.getSession());
 
 		//防止重复记录
@@ -230,13 +231,15 @@ public class ArticleController extends AbstractController<Article>{
 
 		if(hasView != null){
 			//已经添加了浏览次数
-			return;
+			return createJSONObject(-1,"has viewed","");
 		}
 
 		articleService.updateArticleViews(articleId,1);
 
 		session.setAttribute("articleView_"+articleId,1);
 
+		JSONObject obj = createJSONObject(1,"success","");
+		return obj;
 
 	}
 
