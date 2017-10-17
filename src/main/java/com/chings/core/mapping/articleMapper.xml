@@ -19,7 +19,7 @@
         select
           a.id as id,a.user_id as userId,a.type as type ,a.title as title,a.content as content,
           a.create_time as createTime,a.update_time as updateTime,user.name as authorName
-          ,b.name as typeName from t_article a
+          ,b.name as typeName,a.views as views from t_article a
           left join t_article_type b on a.type=b.id
           left join t_user user on a.user_id=user.id
           where a.id=#{id}
@@ -30,7 +30,7 @@
          select
               a.id as id,a.user_id as userId,a.type as type ,a.title as title,SUBSTR(a.content,1,200) as content,
               a.create_time as createTime,a.update_time as updateTime,user.name as authorName
-              ,b.name as typeName
+              ,b.name as typeName,a.views as views
 	      from t_article a
           left join t_article_type b on a.type=b.id
           left join t_user user on a.user_id=user.id
@@ -42,6 +42,7 @@
         select
         count(*)
         from t_article
+        where status != 0 and status != 2
     </select>
 
     <select id="selectArticleTypes" resultType="java.util.HashMap" parameterType="java.lang.Long">
@@ -54,7 +55,7 @@
 
     <select id="managerArticles" resultType="java.util.HashMap" >
         select
-        id,title,create_time,type,status
+        id,title,create_time,type,status,views
         from t_article
        <!-- <where>
             <if test="keywords!=""">
@@ -87,6 +88,11 @@
     <update id="updateArticleStatus"
             parameterType="com.chings.core.model.Article">
         UPDATE t_article set status = #{status} where id=#{id}
+    </update>
+
+    <update id="updateArticleViews">
+        update t_article set views = views + #{increase_counts} where id = #{articleId}
+
     </update>
 
 </mapper>

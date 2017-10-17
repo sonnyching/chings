@@ -35,4 +35,6 @@ public interface IArticleDao {
 
 	public int updateArticleStatus(Article article);
 
+	public int updateArticleViews(@Param("articleId")long articleId,@Param("increase_counts")int increase_counts);
+
 }

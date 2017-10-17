@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -216,6 +217,27 @@ public class ArticleController extends AbstractController<Article>{
 		}else{
 			return createJSONObject(0,"成功",null);
 		}
+	}
+
+	@RequestMapping("/updateViews")
+	public void updateArticleViews(HttpServletRequest request,long articleId){
+		User user = getCurrUser(request.getSession());
+
+		//防止重复记录
+		HttpSession session = request.getSession();
+
+		Object hasView = session.getAttribute("articleView_"+articleId);
+
+		if(hasView != null){
+			//已经添加了浏览次数
+			return;
+		}
+
+		articleService.updateArticleViews(articleId,1);
+
+		session.setAttribute("articleView_"+articleId,1);
+
+
 	}
 
 

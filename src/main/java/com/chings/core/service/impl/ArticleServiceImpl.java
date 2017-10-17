@@ -179,4 +179,16 @@ public class ArticleServiceImpl implements IArticleService {
 
 	}
 
+	@Override
+	public int updateArticleViews(long articleId, int increase_counts) {
+		int rows = 0;
+
+		try {
+			rows = articleDao.updateArticleViews(articleId,increase_counts);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return rows;
+	}
 }

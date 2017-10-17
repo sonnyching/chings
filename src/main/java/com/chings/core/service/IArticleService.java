@@ -33,4 +33,6 @@ public interface IArticleService {
 
 	public int putArticleOn(User user, long articleId);
 
+	public int updateArticleViews(long articleId,int increse_counts);
+
 }

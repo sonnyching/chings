@@ -22,6 +22,8 @@ public class Article {
 
 	public int status;
 
+	public long views;//浏览次数
+
 	public long getId() {
 		return id;
 	}
@@ -100,6 +102,14 @@ public class Article {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public long getViews() {
+		return views;
+	}
+
+	public void setViews(long views) {
+		this.views = views;
 	}
 
 	//	private int article_id;
