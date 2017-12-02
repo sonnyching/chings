@@ -24,6 +24,8 @@ public class Article {
 
 	public long views;//浏览次数
 
+	public String outLine;//概要
+
 	public long getId() {
 		return id;
 	}
@@ -110,6 +112,14 @@ public class Article {
 
 	public void setViews(long views) {
 		this.views = views;
+	}
+
+	public String getOutLine() {
+		return outLine;
+	}
+
+	public void setOutLine(String outLine) {
+		this.outLine = outLine;
 	}
 
 	//	private int article_id;

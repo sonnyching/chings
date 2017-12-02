@@ -7,8 +7,6 @@ import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.Article;
 import com.chings.core.model.User;
 import com.chings.core.service.IArticleService;
-import com.chings.core.utils.Log;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

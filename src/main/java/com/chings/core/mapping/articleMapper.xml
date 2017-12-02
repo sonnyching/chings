@@ -19,7 +19,7 @@
         select
           a.id as id,a.user_id as userId,a.type as type ,a.title as title,a.content as content,
           a.create_time as createTime,a.update_time as updateTime,user.name as authorName
-          ,b.name as typeName,a.views as views from t_article a
+          ,b.name as typeName,a.views as views,a.outline as outLine from t_article a
           left join t_article_type b on a.type=b.id
           left join t_user user on a.user_id=user.id
           where a.id=#{id}
@@ -28,9 +28,9 @@
     <select id="selectAllArticleByPage" resultType="com.chings.core.model.Article"
             parameterType="com.chings.core.conpont.Page" >
          select
-              a.id as id,a.user_id as userId,a.type as type ,a.title as title,SUBSTR(a.content,1,200) as content,
+              a.id as id,a.user_id as userId,a.type as type ,a.title as title,
               a.create_time as createTime,a.update_time as updateTime,user.name as authorName
-              ,b.name as typeName,a.views as views
+              ,b.name as typeName,a.views as views,a.outline as outLine
 	      from t_article a
           left join t_article_type b on a.type=b.id
           left join t_user user on a.user_id=user.id
@@ -67,7 +67,7 @@
     </select>
 
     <update id="updateArticle" parameterType="com.chings.core.model.Article">
-        update t_article set content=#{content},title=#{title},update_time=#{updateTime} where id = #{id}
+        update t_article set content=#{content},title=#{title},outLine=#{outLine},update_time=#{updateTime} where id = #{id}
     </update>
 
     <update id="deleteArticle" parameterType="java.lang.Long">
@@ -80,8 +80,8 @@
             parameterType="com.chings.core.model.Article"
             >
 
-       insert into t_article(user_id,type,content,create_time,update_time)
-            values(#{userId},#{type},#{content},#{createTime},#{updateTime})
+       insert into t_article(user_id,type,content,create_time,update_time,outline)
+            values(#{userId},#{type},#{content},#{createTime},#{updateTime},#{outLine})
 
     </insert>
 
