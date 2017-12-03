@@ -1,10 +1,10 @@
 package com.chings.core.interceptors;
 
+import com.chings.core.config.Constant;
 import com.chings.core.exception.UserNotLogin;
 import com.chings.core.model.User;
 import com.chings.core.utils.DateUtil;
 import com.chings.core.utils.ResponseUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,6 +28,11 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         welcomeLog(request);
+
+        if(!Constant.checklogin){
+            return true;
+        }
+
         //Log.info((unCheckUrls.size()));
         String fromUrl = request.getRequestURI();
         if(unCheckUrls!=null && !unCheckUrls.isEmpty()){
